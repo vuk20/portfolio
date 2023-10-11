@@ -759,7 +759,7 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 				nameError.innerHTML ='name is required'
 				return false;
 			}
-			if(!name.match(/^[A-Za-z]+\s{1}[A-Za-z]+$/)){
+			if(!name.match(/^[A-Za-z]+( [A-Za-z]+){1,2}$/)){
 				nameError.innerHTML ='write your full name';
 				return false;
 				
