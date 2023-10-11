@@ -677,19 +677,23 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 								<div class="col-md-10 col-md-offset-1 col-md-pull-1 animate-box" data-animate-effect="fadeInRight">
 									<form id="submit-form">
 										<div class="form-group">
-											<input type="text" class="form-control" name="name" placeholder="Name">
+											<input type="text" class="form-control" name="name" placeholder="Name" id="contact-name" onkeyup="validateName()">
+											<span id="name-error"></span>
 										</div>
 										<div class="form-group">
-											<input type="text" class="form-control" name="email" placeholder="Email">
+											<input type="text" class="form-control" name="email" placeholder="Email" id="contact-email" onkeyup="validateEmail()">
+											<span id="email-error"></span>
 										</div>
 										<!-- <div class="form-group">
 											<input type="text" class="form-control" placeholder="Subject">
 										</div> -->
 										<div class="form-group">
-											<textarea name="message" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+											<textarea name="message" cols="30" rows="7" class="form-control" placeholder="Message" id="contact-message" onkeyup="validateMessage()"></textarea>
+											<span id="message-error"></span>
 										</div>
 										<div class="form-group">
-											<input type="submit" class="btn btn-primary btn-send-message" value="Send Message">
+											<input type="submit" class="btn btn-primary btn-send-message" onclick="return validateForm()" value="Send Message">
+											<span id="submit-error"></span>
 										</div>
 									</form>
 								</div>
@@ -740,6 +744,70 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 				}
 			})
 		})
+	</script>
+	<script>
+		var nameError = document.getElementById('name-error');
+		var emailError = document.getElementById('email-error');
+		var messageError = document.getElementById('message-error');
+		var submitError = document.getElementById('submit-error');
+		
+		function validateName()
+		{
+			var name = document.getElementById('contact-name').value;
+			if(name.length ==0)
+			{
+				nameError.innerHTML ='name is required'
+				return false;
+			}
+			if(!name.match(/^[A-Za-z]+\s{1}[A-Za-z]+$/)){
+				nameError.innerHTML ='write your full name';
+				return false;
+				
+			}
+			nameError.innerHTML = '<i class="uil uil-check-circle"></i>';
+			return true;
+		}
+		function validateEmail()
+		{
+			var email = document.getElementById('contact-email').value;
+			if(email.length==0)
+			{
+				emailError.innerHTML ='email is required'
+				return false;
+			}
+			if(!email.match(/^[A-Za-z\._\-[0-9]+@[A-Za-z]+\.[a-z]{2,}$/))
+			{
+				emailError.innerHTML ='Email is invalid'
+				return false;
+			}
+			emailError.innerHTML = '<i class="uil uil-check-circle"></i>';
+			return true;
+		}
+		function validateMessage()
+		{
+			var message = document.getElementById('contact-message').value;
+			var required =25;
+			var left = required - message.length;
+			if(left>0)
+			{
+				messageError.innerHTML = left +'more characters required';
+				return false;
+			}
+		
+			messageError.innerHTML= '<i class="uil uil-check-circle"></i>';
+			return true;
+		}
+		function validateForm()
+		{
+			if(!validateName() || !validateEmail() || !validateMessage())
+			{
+				submitError.style.display ='block';
+				submitError.innerHTML = 'please fill the all field';
+				setTimeout(function(){submitError.style.display ='none';}, 3000);
+				return false;
+			  
+			}
+		}
 	</script>
 	</body>
 </html>
